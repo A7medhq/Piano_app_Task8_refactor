@@ -23,7 +23,7 @@ class _PianoAppState extends State<PianoApp> {
   @override
   void initState() {
     key_width = 60;
-    loadMidi('assests/Piano_Tiles_2_Soundfont.sf2');
+    loadMidi('assets/Piano_Tiles_2_Soundfont.sf2');
     super.initState();
   }
 
@@ -36,7 +36,7 @@ class _PianoAppState extends State<PianoApp> {
     ByteData sf2 = await rootBundle.load(asset);
     flutterMidi.prepare(
         sf2: sf2,
-        name: 'assets/$midiFilePath_choice.sf2'.replaceAll('assets/', ''));
+        name: 'assets/$midiFilePath_choice'.replaceAll('assets/', ''));
   }
 
   void stopNote(int midiNote) {
@@ -54,29 +54,22 @@ class _PianoAppState extends State<PianoApp> {
           leading: Padding(
             padding: const EdgeInsets.all(20.0),
             child: DropdownButton<String>(
-                value: midiFilePath_choice ?? 'Nylon and Steeel Guitars-4U-v2',
+                value: midiFilePath_choice ?? 'Piano_Tiles_2_Soundfont.sf2',
                 items: const [
                   DropdownMenuItem(
                     child: Text('Piano'),
-                    value: 'Piano_Tiles_2_Soundfont',
+                    value: 'Piano_Tiles_2_Soundfont.sf2',
                   ),
                   DropdownMenuItem(
-                    child: Text('Guitar'),
-                    value: 'Nylon and Steeel Guitars-4U-v2',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Dramps'),
-                    value: 'PNS Drum Kit',
+                    child: Text('Draums'),
+                    value: 'PNS Drum Kit.SF2',
                   ),
                 ],
                 onChanged: (value) {
                   setState(() {
                     midiFilePath_choice = value;
                   });
-                  if (midiFilePath_choice == 'PNS Drum Kit') {
-                    loadMidi('assets/$midiFilePath_choice.SF2');
-                  }
-                  loadMidi('assets/$midiFilePath_choice.sf2');
+                  loadMidi('assets/$midiFilePath_choice');
                 }),
           ),
           title: Center(child: Text('Piano')),
@@ -100,10 +93,10 @@ class _PianoAppState extends State<PianoApp> {
               Clef.Treble,
             ]),
             onNotePositionTapped: (position) {
-              setState(() {
+
                 flutterMidi.playMidiNote(midi: position.pitch);
-                activeNotes.add(position.pitch); //
-              });
+                // activeNotes.add(position.pitch); //
+
             },
           ),
         ),
